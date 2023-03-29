@@ -1,0 +1,141 @@
+Node.js : fs.writeFileSync() method 
+
+https://nodejs.cn/api/fs.html#fsreadfilesyncpath-options
+
+https://www.geeksforgeeks.org/node-js-fs-writefilesync-method/
+
+https://juejin.cn/post/6844903621465735175
+
+https://nodejs.cn/api/fs.html
+
+New number and Math features in ES6
+https://2ality.com/2015/04/numbers-math-es6.html
+
+
+在 node 中，使用 fs 模塊來實現所有有關文件以及目錄的創建，寫入和刪除操作。
+在 fs 模塊中，所有的方法都分為同步和異步兩種，==具有 sync 後綴的是同步方法==，
+不具有 sync 後綴的方法是異步方法。
+
+The ‘fs’ module of Node.js implements the File I/O operation.
+Methods in the fs module can be synchronous as well as asynchronous.
+The Asynchronous function has a callback function as the last parameter which 
+indicates the completion of the asynchronous function. Node.js developers prefer 
+asynchronous methods over synchronous methods as asynchronous methods never block a 
+program during its execution, whereas the latter does. Blocking the main thread is 
+malpractice in Node.js, thus synchronous functions should only be used for debugging 
+or when no other options are available. The fs.writeFileSync() is a synchronous method.
+The fs.writeFileSync() creates a new file if the specified file does not exist.
+Also the ‘readline-sync’ module is used to enable user input at runtime. 
+Node.js 的“fs”模塊實現了文件 I/O 操作。 fs 模塊中的方法可以是同步的也可以是異步的。
+異步函數有一個回調函數作為最後一個參數，它指示異步函數的完成。
+***Node.js 開發人員更喜歡異步方法而不是同步方法，
+***因為異步方法在程序執行期間從不阻塞程序，而後者會。
+***阻塞主線程是 Node.js 中的弊端，因此同步函數應該只用於調試或當沒有其他選項可用時。
+fs.writeFileSync() 是一種同步方法。
+如果指定的文件不存在，fs.writeFileSync() 會創建一個新文件。
+此外，“readline-sync”模塊用於在運行時啟用用戶輸入。
+
+ fs.writeFileSync() method :
+Syntax: fs.writeFileSync( file, data, options )
+
+Parameters: This method accept three parameters as mentioned above and described below:
+file: It is a string, Buffer, URL or file description integer that denotes the 
+path of the file where it has to be written. Using a file descriptor will make the 
+it behave similar to fs.write() method.
+data: It is a string, Buffer, TypedArray or DataView that will be written to the file.
+options: It is an string or object that can be used to specify optional parameters 
+that will affect the output. It has three optional parameter:
+encoding: It is a string which specifies the encoding of the file. The default value is ‘utf8’.
+mode: It is an integer which specifies the file mode. The default value is 0o666.
+flag: It is a string which specifies the flag used while writing to the file.
+The default value is ‘w’.
+參數：該方法接受上面提到的三個參數，如下所述：
+file：它是一個字符串、Buffer、URL 或文件描述整數，表示必須寫入的文件的路徑。
+使用文件描述符將使它的行為類似於 fs.write() 方法。
+data：它是將寫入文件的字符串、Buffer、TypedArray 或 DataView。
+options：是一個字符串或對象，可以用來指定可選參數那會影響輸出。 它有三個可選參數：
+encoding：它是一個字符串，指定文件的編碼。 默認值為“utf8”。
+***文件的八進製文件權限，ES6中的0o表示八進制。
+octal file permissions for the file, 0o in ES6 represents octal.
+mode：它是一個整數，指定文件模式。 默認值為 0o666。
+flag：它是一個字符串，指定寫入文件時使用的標誌。默認值為“w”。
+
+example:
+// Node.js program to demonstrate the
+// fs.writeFileSync() method
+ 
+// Import the filesystem module
+const fs = require('fs');
+ 
+let data = "This is a file containing a collection"
+           + " of programming languages.\n"
+ + "1. C\n2. C++\n3. Python";
+ 
+fs.writeFileSync("programming.txt", data);
+console.log("File written successfully\n");
+console.log("The written has the following contents:");
+console.log(fs.readFileSync("programming.txt", "utf8"));
+
+node fs學習筆記--------------------------------------------------------
+基礎用法
+在 node 中，使用 fs 模塊來實現所有有關文件以及目錄的創建，寫入和刪除操作。
+在 fs 模塊中，所有的方法都分為同步和異步兩種，
+==具有 sync 後綴的是同步方法==，不具有 sync 後綴的方法是異步方法。
+常用 api::
+fs.readFile
+fs.writeFile
+fs.copyFile
+fs.unlink
+fs.read
+fs.write
+fs.open
+fs.sync
+fs.close
+fs.mkdir
+fs.rmdir
+fs.rname
+fs.readdir
+--------------------------------------------------------
+對文件常見操作權限是 666 即讀寫操作。如果想更改權限 
+chmod -R 777 * 把所有文件更改為最高權限。助記：二爺一直死讀書(2寫1執4讀)
+flag 參數含義
+符號
+含義
+r
+讀文件，文件不存在報錯
+r+
+讀取並寫入，文件不存在報錯
+rs
+同步讀取文件並忽略緩存
+w
+寫入文件，不存在則創建，存在則清空
+wx
+排它寫入文件
+w+
+讀取並寫入文件，不存在則創建，存在則清空
+wx+
+和w+類似，排他方式打開
+a
+追加寫入
+ax
+與a類似，排他方式寫入
+a+
+讀取並追加寫入，不存在則創建
+ax+
+作用與a+類似，但是以排他方式打開文件
+助記：
+r 讀取
+w 寫入
+s 同步
++ 增加相反操作
+x 排他方式
+r+ w+的區別?
+當文件不存在時，r+不會創建，而會導致調用失敗，但w+會創建。
+***如果文件存在，r+不會自動清空文件，但w+會自動把已有文件的內容清空。
+
+
+
+
+
+
+
